@@ -9,13 +9,14 @@
 #define MAX_STR_LEN 20
 #define BUFFER_SIZE 100
 
-int search_file(FILE *, const char *);
+unsigned long long search_file(FILE *, const char *);
 int check_for_match(const char *, const char *, int);
 
 int main(int argc, char *argv[]){
 	FILE *in_file, *out_file;
 	char *search_str;
-	int retVal = 0, filesize, num_matches;
+	int retVal = 0;
+	unsigned long long num_matches, filesize;
 
 	//check that args are correct
 	if(argc != ARGNUM){
@@ -52,12 +53,12 @@ int main(int argc, char *argv[]){
 	num_matches = search_file(in_file, search_str);
 
 	//output result to stdout
-	printf("Size of file is %d\n", filesize);
-	printf("Number of matches is %d\n", num_matches);
+	printf("Size of file is %llu\n", filesize);
+	printf("Number of matches is %llu\n", num_matches);
 
 	//write to output file
-	fprintf(out_file, "Size of file is %d\n", filesize);
-	fprintf(out_file, "Number of matches is %d\n", num_matches);
+	fprintf(out_file, "Size of file is %llu\n", filesize);
+	fprintf(out_file, "Number of matches is %llu\n", num_matches);
 
 
 	if(fclose(in_file)){
@@ -75,9 +76,10 @@ int main(int argc, char *argv[]){
 /*
 *  This function returns how many times the search string appears in the input file
 */
-int search_file(FILE *in_file, const char *search_str){
+unsigned long long search_file(FILE *in_file, const char *search_str){
 	char buf[BUFFER_SIZE];
-	int match_count=0, bytes_read, done=0, i;
+	int bytes_read, done=0, i;
+	unsigned long long match_count=0;
 	int len = strlen(search_str);
 
 	//search for matches
